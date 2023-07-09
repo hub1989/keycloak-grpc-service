@@ -1,0 +1,28 @@
+name: Commit Stage
+on:
+  push:
+    branches-ignore:
+      - 'main'
+      - 'release*'
+      - 'qa*'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout code
+
+      - uses: actions/setup-go@v4.0.1
+        name: Setup go
+        with:
+          cache: true
+      - run: go version
+
+      - name: run tests
+        run: |
+          go test -v

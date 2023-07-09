@@ -1,0 +1,9 @@
+GRPC_PORT=:50059
+CLIENT_ID
+CLIENT_SECRET
+GRANT_TYPE=client_credentials
+TRACING_URL=http://localhost:14268/api/traces
+ENV=development
+JAEGER_SERVICE_NAME=keycloak-grpc-service
+KEYCLOAK_URL
+KEYCLOAK_REALM
