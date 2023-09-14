@@ -176,8 +176,11 @@ func (d DefaultUserService) Authenticate(ctx context.Context, username, password
 
 	password = url.QueryEscape(password)
 
-	requestForm := fmt.Sprintf("client_id=%s&username=%s&password=%s&grant_type=password&client_secret=%s&scope=openid profile", clientId, username, password, clientSecret)
+	requestForm := fmt.Sprintf("client_id=%s&username=%s&password=%s&grant_type=password&scope=openid profile", clientId, username, password)
 
+	if clientSecret != "" {
+		requestForm = fmt.Sprintf("%s&client_secret=%s", requestForm, clientSecret)
+	}
 	payload := strings.NewReader(requestForm)
 
 	client := d.GetClient()

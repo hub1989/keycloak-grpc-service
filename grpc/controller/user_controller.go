@@ -196,15 +196,21 @@ func (u UserController) Authenticate(ctx context.Context, in *user.AuthenticateR
 		return nil, status.Error(codes.InvalidArgument, "usernamecannot be nil or empty")
 	}
 
-	if in.ClientId == nil && in.ClientId.Value == "" {
+	if in.ClientId == nil || in.ClientId.Value == "" {
 		return nil, status.Error(codes.InvalidArgument, "client id cannot be nil or empty")
 	}
 
-	if in.ClientSecret == nil && in.ClientSecret.Value == "" {
+	if in.ClientSecret != nil && in.ClientSecret.Value == "" {
 		return nil, status.Error(codes.InvalidArgument, "client secret cannot be nil or empty")
 	}
 
-	resp, err := u.UserService.Authenticate(ctx, in.Username, in.Password, in.ClientId.Value, in.ClientSecret.Value)
+	clientSecret := ""
+
+	if in.ClientSecret != nil && in.ClientSecret.Value == "" {
+		clientSecret = in.ClientSecret.Value
+	}
+
+	resp, err := u.UserService.Authenticate(ctx, in.Username, in.Password, in.ClientId.Value, clientSecret)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}
