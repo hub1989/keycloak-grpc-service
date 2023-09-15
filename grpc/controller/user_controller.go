@@ -206,7 +206,7 @@ func (u UserController) Authenticate(ctx context.Context, in *user.AuthenticateR
 
 	clientSecret := ""
 
-	if in.ClientSecret != nil && in.ClientSecret.Value == "" {
+	if in.ClientSecret != nil && in.ClientSecret.Value != "" {
 		clientSecret = in.ClientSecret.Value
 	}
 
